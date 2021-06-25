@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.orgi.mapper.SampleMapper">
+
+	<sql id="columnAll">
+		  seq
+		, type_seq
+		, data_point
+		, test_time
+		, date_time
+		, step_time
+		, step_Index
+		, cycle_Index
+		, current
+		, voltage
+		, charge_capacity
+		, discharge_capacity
+		, charge_energy
+		, discharge_energy
+		, dv_dt
+		, internal_resistance
+		, is_fc_data
+		, ac_impedance
+		, aci_phase_angle
+		, temperature_1
+		, temperature_2
+	</sql>	
+	
+	<!-- Min/Max 조회 : 원형셀 type-seq 1~74까지 -->
+	<select id="select_minmax">
+		SELECT 
+			type_seq, 
+			min(`current`) as minCurrent, 
+			max(`current`), 
+			min(`voltage`),
+			max(`voltage`), 
+			min(`discharge_capacity`), 
+			max(`charge_capacity`), 
+			min(`temperature_1`), 
+			max(`temperature_1`) 		
+        FROM cell_data
+        where type_seq = #{type_seq}
+	</select>
+
+	<!-- Min/Max 데이터 업데이트(추가) -->
+	<update id="insert_Minmax">
+        UPDATE cell_sample_type_dump2
+        SET current_min = #{current_min}
+        	, current_max = #{current_max}
+            , voltage_min = #{voltage_min}
+            , voltage_max = #{voltage_max}
+            , charge_capacity_max = #{charge_capacity_max}
+            , discharge_capacity_min = #{discharge_capacity_min}
+            , temperature1_min = #{temperature1_min}
+            , temperature2_min = #{temperature2_min}  
+        WHERE seq = #{seq}
+	</update>
+
+
+	<insert id="celldata_csv">
+
+
+	</insert>
+
+</mapper>
